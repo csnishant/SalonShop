@@ -8,7 +8,7 @@ git clone https://github.com/csnishant/salonshop
 ```
 2. Navigate to the client directory:
 ```bash
-cd salonshop/client
+cd client
 ```
 3. Install dependencies:
 ```bash
