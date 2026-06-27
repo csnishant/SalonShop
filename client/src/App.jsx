@@ -7,6 +7,7 @@ import OurStylists from "./pages/OurStylists";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import BookAppointment from "./pages/BookAppointment";
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/stylists" element={<OurStylists />} />
+            <Route path="/book-appointment" element={<BookAppointment />} />
           </Routes>
         </div>
 

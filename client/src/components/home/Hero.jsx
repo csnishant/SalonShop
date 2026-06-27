@@ -54,9 +54,8 @@ const Hero = () => {
           <source src={HeroVideo} type="video/mp4" />
         </video>
 
-        {/* Cinematic Gradient Overlays - Mobile shadow reduced from black/80 to black/40 for clarity */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-[#070708] lg:bg-gradient-to-r lg:from-black/90 lg:via-black/30 lg:to-transparent"></div>
-        {/* EXTRA DARK OVERLAY REMOVED FROM HERE FOR MOBILE */}
+        {/* Cinematic Gradient Overlays - Mobile shadow optimized */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-[#070708] lg:bg-gradient-to-r lg:from-black/95 lg:via-black/40 lg:to-transparent"></div>
       </div>
 
       {/* 2. Main Content Wrapper - 100% Fully Responsive */}
@@ -65,11 +64,11 @@ const Hero = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8 max-w-4xl w-full">
+          className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8 max-w-5xl w-full">
           {/* Badge with Breathing Glow Animation */}
           <motion.div
             variants={badgeVariants}
-            className="inline-flex items-center space-x-2.5 bg-black/70 border border-amber-500/40 px-4 py-2 rounded-full backdrop-blur-xl shadow-[0_0_20px_rgba(245,158,11,0.1)]">
+            className="inline-flex items-center space-x-2.5 bg-black/80 border border-amber-500/40 px-4 py-2 rounded-full backdrop-blur-xl shadow-[0_0_20px_rgba(245,158,11,0.15)]">
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ repeat: Infinity, duration: 8, ease: "linear" }}>
@@ -80,28 +79,38 @@ const Hero = () => {
             </span>
           </motion.div>
 
-          {/* Epic Typography with Text-Stroke & Smooth Slide */}
-          <motion.div variants={itemVariants} className="w-full">
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.95] tracking-tight text-white uppercase select-none">
+          {/* Epic Typography with Next-Level High Visibility Border & Shadow */}
+          <motion.div variants={itemVariants} className="w-full relative z-20">
+            {/* Subtle backdrop container to pop the text from busy video backgrounds */}
+            <div className="absolute -inset-4 bg-black/10 backdrop-blur-[2px] rounded-3xl -z-10 lg:hidden" />
+
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.90] tracking-tight text-white uppercase select-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
               <span
-                className="block text-transparent mb-1 opacity-90 drop-shadow-md"
+                className="block text-transparent mb-2 tracking-wide font-black"
                 style={{
-                  WebkitTextStroke: "1.5px #ffffff",
+                  WebkitTextStroke: "2px #ffffff",
                   fontStyle: "italic",
+                  filter: "drop-shadow(0px 4px 8px rgba(0,0,0,0.9))",
                 }}>
                 STYLORIA.
               </span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 block sm:inline">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-600 block sm:inline drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
                 UNISEX
               </span>{" "}
-              SALON.
+              <span
+                className="text-white inline-block"
+                style={{
+                  WebkitTextStroke: "1px rgba(255,255,255,0.6)",
+                }}>
+                SALON.
+              </span>
             </h1>
           </motion.div>
 
-          {/* Description updated with actual services */}
+          {/* Description updated with rich text shadows */}
           <motion.p
             variants={itemVariants}
-            className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-2xl font-medium leading-relaxed px-2 sm:px-0">
+            className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-200 max-w-2xl font-bold leading-relaxed px-2 sm:px-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] bg-black/20 lg:bg-transparent p-3 lg:p-0 rounded-xl backdrop-blur-[1px] lg:backdrop-blur-none">
             "See the mastery. Experience the transformation. Premium Haircuts,
             Couture Hair Color, Advanced Skin Care, and Luxury Bridal Services
             in Burhanpur."
@@ -110,23 +119,34 @@ const Hero = () => {
           {/* Action Buttons - Links to Maps / Phone Call */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pt-2">
-            <motion.a
-              href="https://maps.app.goo.gl/8XSSKuy7e3T81v7n6?g_st=com.google.maps.preview.copy"
-              target="_blank"
-              rel="noopener noreferrer"
+            className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pt-2 relative z-20">
+            <motion.button
+              onClick={(e) => {
+                e.preventDefault();
+                // 1. Agar mobile menu open hai, toh use band karein
+                if (typeof setMobileMenuOpen === "function")
+                  setMobileMenuOpen(false);
+
+                // 2. Client-side Single Page Application (SPA) routing bina page refresh ke
+                window.history.pushState({}, "", "/book-appointment");
+                const navEvent = new PopStateEvent("popstate");
+                window.dispatchEvent(navEvent);
+
+                // Optional: Agar direct page section par scroll karwana ho toh:
+                // document.getElementById('appointment-section')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               whileHover={{
                 scale: 1.03,
-                boxShadow: "0px 0px 30px rgba(245, 158, 11, 0.4)",
+                boxShadow: "0px 0px 30px rgba(245, 158, 11, 0.5)",
               }}
               whileTap={{ scale: 0.97 }}
-              className="group relative bg-amber-500 text-black px-8 py-4 rounded-xl font-black text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-colors duration-300">
+              className="group relative bg-gradient-to-r from-amber-500 to-yellow-500 text-black px-8 py-4 rounded-xl font-black text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_4px_15px_rgba(245,158,11,0.3)] transition-all duration-300 cursor-pointer border-none outline-none">
               Book Your Appointment
               <ArrowRight
                 size={18}
                 className="group-hover:translate-x-1.5 transition-transform duration-300"
               />
-            </motion.a>
+            </motion.button>
 
             <motion.a
               href="tel:+919755131359"
@@ -136,7 +156,7 @@ const Hero = () => {
                 color: "#000",
               }}
               whileTap={{ scale: 0.97 }}
-              className="group border-2 border-white/80 text-white px-8 py-4 rounded-xl font-black text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-3 bg-black/20 backdrop-blur-sm transition-all duration-300">
+              className="group border-2 border-white/90 text-white px-8 py-4 rounded-xl font-black text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-3 bg-black/40 backdrop-blur-md shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-all duration-300">
               <Phone size={16} className="group-hover:animate-bounce" />
               Call Styloria
             </motion.a>
@@ -145,7 +165,7 @@ const Hero = () => {
           {/* Micro-Feature Matrix Updated for Unisex Salon Offerings */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 md:pt-12 border-t border-white/10 w-full">
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 md:pt-12 border-t border-white/10 w-full relative z-20">
             {[
               { icon: <Scissors size={18} />, text: "Hair & Color" },
               { icon: <Sparkles size={18} />, text: "Bridal & Makeup" },
@@ -154,9 +174,11 @@ const Hero = () => {
             ].map((item, i) => (
               <div
                 key={i}
-                className="flex items-center justify-center lg:justify-start space-x-2.5 text-gray-400 bg-white/5 lg:bg-transparent p-3 lg:p-0 rounded-lg border border-white/5 lg:border-none backdrop-blur-sm lg:backdrop-blur-none">
-                <div className="text-amber-500">{item.icon}</div>
-                <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-200">
+                className="flex items-center justify-center lg:justify-start space-x-2.5 text-gray-300 bg-black/40 lg:bg-transparent p-3.5 lg:p-0 rounded-xl border border-white/10 lg:border-none backdrop-blur-md lg:backdrop-blur-none shadow-[0_4px_10px_rgba(0,0,0,0.3)] lg:shadow-none">
+                <div className="text-amber-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                  {item.icon}
+                </div>
+                <span className="text-[10px] md:text-xs font-black uppercase tracking-wider text-gray-100 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
                   {item.text}
                 </span>
               </div>
