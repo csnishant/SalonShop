@@ -41,7 +41,7 @@ const TrustBanner = () => {
 
   const handleCopy = (e) => {
     e.stopPropagation(); // Prevents banner collapse toggle
-    navigator.clipboard.writeText("HUNK100");
+    navigator.clipboard.writeText("STYLORIA50");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -56,7 +56,7 @@ const TrustBanner = () => {
             ? "bg-[#0f0f0f]/95 backdrop-blur-md border-amber-500/20 shadow-xl"
             : "bg-transparent border-transparent"
         }`}>
-        {/* 📱 Mobile Optimized Height adjustments: py-1.5 on mobile, py-2.5 on desktop */}
+        {/* 📱 Mobile Optimized Height adjustments */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-1.5 sm:py-2.5 flex items-center justify-between min-h-[36px] sm:min-h-[auto]">
           {/* Left Side: Combined Minimal Info layout */}
           <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -68,10 +68,10 @@ const TrustBanner = () => {
                   className="w-7 h-7 rounded-full border-2 border-[#070708] object-cover"
                   src={`https://images.unsplash.com/photo-${
                     i === 1
-                      ? "1507003211169-0a1dd7228f2d"
+                      ? "1562322140-8baeececf3df"
                       : i === 2
-                        ? "1622253692010-333f2da6031d"
-                        : "1539571696357-5a69c17a67c6"
+                        ? "1605497746444-ac9da58d440d"
+                        : "1596178065887-1198b6148b2b"
                   }?auto=format&fit=crop&w=100&q=80`}
                   alt="Satisfied Client"
                 />
@@ -80,9 +80,11 @@ const TrustBanner = () => {
 
             {/* ⚡ Mobile Ultra-Slim Ticker Container */}
             <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-between sm:justify-start">
-              {/* Desktop text layer remains untouched; mobile converts to minimal badge */}
               <p className="hidden sm:block text-[11px] md:text-[12px] font-bold text-neutral-300 tracking-wide uppercase">
-                Styled by <span className="text-amber-400">Master Barbers</span>
+                Styled by{" "}
+                <span className="text-amber-400">
+                  Expert Stylists & Makeup Artists
+                </span>
               </p>
 
               {/* Micro Status Pill Wrapper */}
@@ -99,9 +101,8 @@ const TrustBanner = () => {
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
                 </span>
 
-                {/* Text scaled down slightly on small devices to remain perfectly on one line */}
                 <span className="text-[8px] sm:text-[9px] font-black text-amber-400 uppercase tracking-wider sm:tracking-widest whitespace-nowrap">
-                  Get RM100 First Visit Voucher
+                  Get First Visit Exclusive Offer
                 </span>
               </motion.div>
             </div>
@@ -139,14 +140,14 @@ const TrustBanner = () => {
                         ))}
                       </div>
                       <span className="text-white font-bold text-[11px] sm:text-xs">
-                        4.9/5 Premium Rating
+                        Top Rated Unisex Salon in Burhanpur
                       </span>
                     </div>
 
                     <h3 className="text-lg sm:text-xl md:text-2xl font-black text-white leading-tight uppercase tracking-tight">
-                      Where Luxury Meets{" "}
-                      <span className="text-amber-400">Perfection</span>.
-                      Trusted by 12k+ Gentlemen.
+                      Where Style Meets{" "}
+                      <span className="text-amber-400">Transformation</span>.
+                      Trusted for Hair, Makeup & Skin Care.
                     </h3>
 
                     <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
@@ -154,10 +155,10 @@ const TrustBanner = () => {
                         <Users className="text-amber-400 shrink-0" size={16} />
                         <div>
                           <p className="text-white font-bold text-[11px] sm:text-xs">
-                            Top Stylists
+                            Master Stylists
                           </p>
                           <p className="text-neutral-400 text-[8px] sm:text-[9px] uppercase tracking-wider">
-                            International Experts
+                            Hair & Bridal Experts
                           </p>
                         </div>
                       </div>
@@ -168,10 +169,10 @@ const TrustBanner = () => {
                         />
                         <div>
                           <p className="text-white font-bold text-[11px] sm:text-xs">
-                            Premium Hygiene
+                            100% Hygienic
                           </p>
                           <p className="text-neutral-400 text-[8px] sm:text-[9px] uppercase tracking-wider">
-                            Fully Sanitized Lounge
+                            Sanitized & Safe Environment
                           </p>
                         </div>
                       </div>
@@ -183,14 +184,14 @@ const TrustBanner = () => {
                     <div className="absolute inset-0 bg-amber-500/5 blur-[30px] rounded-full" />
                     <div className="relative bg-white/5 border border-white/10 p-5 sm:p-6 rounded-2xl text-center space-y-3">
                       <div className="inline-block bg-amber-500/20 text-amber-400 text-[8px] sm:text-[9px] font-black px-3 py-0.5 rounded-full uppercase tracking-widest">
-                        Welcome Reward
+                        Welcome Discount
                       </div>
                       <h4 className="text-2xl sm:text-3xl md:text-4xl font-black text-white italic tracking-tighter">
-                        RM100 <span className="text-amber-400">OFF</span>
+                        FLAT 50% <span className="text-amber-400">OFF</span>
                       </h4>
                       <p className="text-neutral-400 text-[11px] sm:text-xs font-medium">
-                        Valid for your first grooming session or luxury hair
-                        spa.
+                        On your first visit for luxury skin treatments, couture
+                        hair coloring, or premium grooming.
                       </p>
 
                       <button
@@ -202,7 +203,7 @@ const TrustBanner = () => {
                               <Check size={12} strokeWidth={3} /> COPIED!
                             </>
                           ) : (
-                            <>USE CODE: HUNK100</>
+                            <>USE CODE: STYLORIA50</>
                           )}
                         </span>
                       </button>
@@ -214,7 +215,7 @@ const TrustBanner = () => {
                 <div className="mt-5 flex justify-center items-center gap-2 border-t border-white/5 pt-3">
                   <Sparkles size={11} className="text-amber-500" />
                   <span className="text-neutral-500 text-[8px] sm:text-[9px] font-bold uppercase tracking-widest">
-                    Last luxury slot booked 4 minutes ago
+                    Bridal & Groom Appointments booking fast for the season
                   </span>
                 </div>
               </div>

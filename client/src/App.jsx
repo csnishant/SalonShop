@@ -7,7 +7,7 @@ import OurStylists from "./pages/OurStylists";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
-import TrustBanner from "./components/layout/TrustBanner";
+
 
 function App() {
   // ⚡ Crucial: Lifted mobile state up so Navbar and body locking stay synced
@@ -25,9 +25,7 @@ function App() {
         {/* z-[9999] guarantees the header section sits securely over video frames & grid items */}
         <div className="fixed top-0 left-0 w-full z-[9999] flex flex-col select-none">
           {/* 1. TRUST BANNER (Forced on top layer) */}
-          <div className="relative z-[10002]">
-            <TrustBanner />
-          </div>
+      
 
           {/* 2. NAVBAR (Layered neatly below the trust banner) */}
           <div className="relative z-[10001] -mt-[1px]">
