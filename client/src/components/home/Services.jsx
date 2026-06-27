@@ -252,12 +252,13 @@ const StyloriaServices = () => {
             </div>
           </div>
 
+            
           <div className="flex flex-col sm:flex-row gap-3 lg:justify-end">
             <a
-              href="tel:+919755131359"
+              href="tel:+916268762390"
               className="flex items-center justify-center gap-2 bg-neutral-100 border border-neutral-200 hover:bg-neutral-200 text-neutral-900 px-6 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all">
               <Phone size={14} />
-              Call 9755131359
+              Call 6268762390
             </a>
 
             <a

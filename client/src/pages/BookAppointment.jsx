@@ -107,7 +107,7 @@ const BookingPage = () => {
   const triggerWhatsAppBooking = () => {
     const message = `Hello Styloria! I want to confirm my booking:\n\n👤 Name: ${formData.name}\n📞 Mobile: ${formData.phone}\n✂️ Service: ${formData.serviceCategory}\n📅 Date: ${formData.date}\n⏰ Time: ${formData.timeSlot}\n📝 Note: ${formData.notes || "None"}`;
     const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/919755131359?text=${encoded}`, "_blank");
+    window.open(`https://wa.me/916268762390?text=${encoded}`, "_blank");
   };
 
   return (
@@ -456,9 +456,9 @@ const BookingPage = () => {
                   WhatsApp or call our support line.
                 </p>
                 <a
-                  href="tel:+919755131359"
+                  href="tel:+916268762390"
                   className="block text-center bg-neutral-50 hover:bg-neutral-100 text-neutral-800 border border-neutral-200 font-extrabold text-[11px] uppercase tracking-wider py-2.5 rounded-xl transition-all">
-                  Call +91 97551 31359
+                  Call +91 62687 2390
                 </a>
               </div>
             </div>

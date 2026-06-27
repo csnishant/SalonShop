@@ -149,7 +149,7 @@ const Hero = () => {
             </motion.button>
 
             <motion.a
-              href="tel:+919755131359"
+              href="tel:+916268762390"
               whileHover={{
                 scale: 1.03,
                 backgroundColor: "rgba(255,255,255,1)",
