@@ -8,8 +8,10 @@ import {
   Sparkles,
   ShoppingBag,
   Heart,
-  Star,
   ShieldCheck,
+  Star,
+  MapPin,
+  Phone,
 } from "lucide-react";
 
 const swipeAnimation = {
@@ -36,6 +38,7 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
       const currentScrollY = window.scrollY;
       setIsScrolled(currentScrollY > 20);
 
+      // Hide/Show logic on scroll
       if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
         setIsVisible(false);
       } else {
@@ -48,6 +51,18 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Prevent background scroll when mobile menu is active
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
 
   const handleCopy = (e) => {
     e.stopPropagation();
@@ -94,11 +109,11 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   };
 
   const mobileLinks = [
-    { name: "Hair Cuts", icon: <Scissors size={24} /> },
-    { name: "Hair Color", icon: <Sparkles size={24} /> },
-    { name: "Makeup", icon: <Heart size={24} /> },
-    { name: "Skin Care", icon: <Sparkles size={24} /> },
-    { name: "Bridal Services", icon: <ShieldCheck size={24} /> },
+    { name: "Hair Cuts", icon: <Scissors size={20} /> },
+    { name: "Hair Color", icon: <Sparkles size={20} /> },
+    { name: "Makeup", icon: <Heart size={20} /> },
+    { name: "Skin Care", icon: <Sparkles size={20} /> },
+    { name: "Bridal Services", icon: <ShieldCheck size={20} /> },
   ];
 
   const textShadowStyle =
@@ -118,32 +133,35 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
         isBannerExpanded
           ? "bg-[#0a0a0a] border-white/5 shadow-2xl text-white"
           : isScrolled || mobileMenuOpen
-            ? "bg-white/95 text-black backdrop-blur-xl py-1.5 border-neutral-200 shadow-xl"
-            : "bg-transparent text-white border-transparent py-3"
+            ? "bg-white/95 text-black backdrop-blur-xl border-neutral-200 shadow-xl"
+            : "bg-transparent text-white border-transparent py-2 md:py-4"
       }`}>
       {/* --- MAIN INTERFACE ZONE --- */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative min-h-[60px] flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 min-h-[64px] flex items-center justify-between">
         <AnimatePresence mode="wait">
           {!isBannerExpanded ? (
             <motion.div
               key="navbar-content"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="w-full flex justify-between items-center gap-2">
               {/* BRAND LOGO AREA */}
               <a
                 href="/"
                 onClick={(e) => handleNavigation(e, "/")}
-                className="flex flex-col group relative z-[1001] shrink-0">
+                className={`flex flex-col group relative z-[10001] shrink-0 ${mobileMenuOpen ? "opacity-0 pointer-events-none lg:opacity-100 lg:pointer-events-auto" : "opacity-100"}`}>
                 <span
-                  className={`text-lg md:text-2xl font-black tracking-tighter transition-colors ${isScrolled || mobileMenuOpen ? "text-black group-hover:text-amber-600" : "text-white group-hover:text-amber-400"}`}
+                  className={`text-xl md:text-2xl font-black tracking-tighter transition-colors ${
+                    isScrolled
+                      ? "text-black group-hover:text-amber-600"
+                      : "text-white group-hover:text-amber-400"
+                  }`}
                   style={textShadowStyle}>
                   STYLORIA
                 </span>
                 <span
-                  className="text-[8px] md:text-[9px] tracking-[0.35em] md:tracking-[0.45em] text-amber-500 font-black uppercase ml-0.5"
+                  className="text-[7.5px] md:text-[9px] tracking-[0.3em] md:tracking-[0.45em] text-amber-500 font-black uppercase ml-0.5"
                   style={textShadowStyle}>
                   Unisex Salon • Burhanpur
                 </span>
@@ -152,7 +170,11 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
               {/* DESKTOP NAVIGATION */}
               <div className="hidden lg:flex items-center gap-4">
                 <div
-                  className={`flex items-center gap-2 p-1.5 rounded-full border transition-all duration-300 ${isScrolled ? "bg-black/5 border-black/5 backdrop-blur-md" : "bg-black/30 border-white/10 backdrop-blur-md shadow-2xl"}`}>
+                  className={`flex items-center gap-2 p-1.5 rounded-full border transition-all duration-300 ${
+                    isScrolled
+                      ? "bg-black/5 border-black/5 backdrop-blur-md"
+                      : "bg-black/30 border-white/10 backdrop-blur-md shadow-2xl"
+                  }`}>
                   {Object.keys(menuData).map((item) => (
                     <div
                       key={item}
@@ -160,7 +182,13 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
                       onMouseEnter={() => setActiveMenu(item)}
                       onMouseLeave={() => setActiveMenu(null)}>
                       <button
-                        className={`px-4 py-2 rounded-full text-[13px] font-black tracking-wide flex items-center gap-1.5 transition-all ${activeMenu === item ? "bg-amber-500 text-black shadow-lg" : isScrolled ? "text-neutral-800 hover:bg-black/5" : "text-white hover:bg-white/10"}`}
+                        className={`px-4 py-2 rounded-full text-[13px] font-black tracking-wide flex items-center gap-1.5 transition-all ${
+                          activeMenu === item
+                            ? "bg-amber-500 text-black shadow-lg"
+                            : isScrolled
+                              ? "text-neutral-800 hover:bg-black/5"
+                              : "text-white hover:bg-white/10"
+                        }`}
                         style={activeMenu === item ? {} : textShadowStyle}>
                         {item}
                         <ChevronDown
@@ -177,7 +205,11 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
                             exit={{ opacity: 0, y: 10 }}
                             className="absolute top-full left-0 pt-4 w-80">
                             <div
-                              className={`rounded-3xl p-3 shadow-2xl border ${isScrolled ? "bg-white border-neutral-200" : "bg-[#0e0e0e]/95 border-white/10 backdrop-blur-xl"}`}>
+                              className={`rounded-3xl p-3 shadow-2xl border ${
+                                isScrolled
+                                  ? "bg-white border-neutral-200"
+                                  : "bg-[#0e0e0e]/95 border-white/10 backdrop-blur-xl"
+                              }`}>
                               {menuData[item].map((sub) => (
                                 <a
                                   key={sub.title}
@@ -186,12 +218,20 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
                                   rel="noopener noreferrer"
                                   className="flex items-center p-3 rounded-2xl hover:bg-amber-500/10 group/item transition-all">
                                   <div
-                                    className={`w-10 h-10 rounded-xl flex items-center justify-center mr-3 group-hover/item:bg-amber-500 group-hover/item:text-black transition-all ${isScrolled ? "bg-neutral-100 text-neutral-800" : "bg-white/5 text-amber-400"}`}>
+                                    className={`w-10 h-10 rounded-xl flex items-center justify-center mr-3 group-hover/item:bg-amber-500 group-hover/item:text-black transition-all ${
+                                      isScrolled
+                                        ? "bg-neutral-100 text-neutral-800"
+                                        : "bg-white/5 text-amber-400"
+                                    }`}>
                                     {sub.icon}
                                   </div>
                                   <div>
                                     <p
-                                      className={`text-sm font-bold group-hover/item:text-amber-600 transition-colors ${isScrolled ? "text-neutral-900" : "text-white"}`}>
+                                      className={`text-sm font-bold group-hover/item:text-amber-600 transition-colors ${
+                                        isScrolled
+                                          ? "text-neutral-900"
+                                          : "text-white"
+                                      }`}>
                                       {sub.title}
                                     </p>
                                     <p className="text-[10px] text-neutral-500 mt-0.5">
@@ -208,7 +248,7 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
                   ))}
                 </div>
 
-                {/* DESKTOP INTEGRATED EXCLUSIVE BANNER */}
+                {/* DESKTOP EXCLUSIVE BANNER LINK */}
                 <motion.div
                   onClick={() => setIsBannerExpanded(true)}
                   animate={swipeAnimation}
@@ -228,111 +268,113 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
                 </motion.div>
               </div>
 
-              {/* CONVERSION ZONE: PULSING MICRO BADGE LEFT SIDE OF BOOK NOW */}
-              <div className="flex items-center gap-1.5 md:gap-4 relative z-[1001] shrink-0">
+              {/* CONVERSION ZONE */}
+              <div
+                className={`flex items-center gap-2 md:gap-4 relative z-[10001] shrink-0 ${mobileMenuOpen ? "opacity-0 pointer-events-none lg:opacity-100 lg:pointer-events-auto" : "opacity-100"}`}>
                 <a
                   href="tel:+919755131359"
-                  className={`hidden md:flex transition-colors drop-shadow-md ${isScrolled || mobileMenuOpen ? "text-neutral-800 hover:text-amber-600" : "text-white hover:text-amber-400"}`}>
+                  className={`hidden sm:flex p-2 transition-colors drop-shadow-md ${
+                    isScrolled
+                      ? "text-neutral-800 hover:text-amber-600"
+                      : "text-white hover:text-amber-400"
+                  }`}>
                   <ShoppingBag size={20} />
                 </a>
 
-                {/* DYNAMIC COMBINED CONTAINER */}
-                <div className="flex items-center gap-1.5 relative">
-                  {/* --- INTENSE PULSING MICRO OFFER BADGE (LEFT SIDE) --- */}
+                {/* OFFER BADGE + BOOK CTA */}
+                <div className="flex items-center gap-2">
                   <motion.div
                     onClick={() => setIsBannerExpanded(!isBannerExpanded)}
                     animate={{
-                      scale: [1, 1.05, 1],
+                      scale: [1, 1.04, 1],
                       boxShadow: [
-                        "0px 0px 4px rgba(245, 158, 11, 0.0)",
-                        "0px 0px 12px rgba(245, 158, 11, 0.4)",
-                        "0px 0px 4px rgba(245, 158, 11, 0.0)",
+                        "0px 0px 0px rgba(245, 158, 11, 0)",
+                        "0px 0px 10px rgba(245, 158, 11, 0.3)",
+                        "0px 0px 0px rgba(245, 158, 11, 0)",
                       ],
                     }}
                     transition={{
                       repeat: Infinity,
-                      duration: 1.4,
+                      duration: 1.5,
                       ease: "easeInOut",
                     }}
-                    className={`px-2.5 py-2 rounded-xl text-[9px] font-black tracking-widest uppercase whitespace-nowrap cursor-pointer z-10 border flex items-center gap-1.5 transition-colors bg-transparent ${
-                      isScrolled || mobileMenuOpen
+                    className={`px-2 py-2 rounded-xl text-[9px] font-black tracking-wider uppercase whitespace-nowrap cursor-pointer z-10 border flex items-center gap-1.5 bg-transparent ${
+                      isScrolled
                         ? "border-amber-500/40 text-amber-600"
                         : "border-amber-400/30 text-amber-400"
                     }`}>
-                    {/* --- HIGH CONVERSION PULSING LIGHT DOT --- */}
                     <span className="relative flex h-1.5 w-1.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
                     </span>
-
-                    {/* --- GIFT ICON & TEXT --- */}
                     <span>🎁 50% OFF</span>
                   </motion.div>
 
-                  {/* MAIN CALL TO ACTION ACTION */}
                   <button
                     onClick={(e) => handleNavigation(e, "/book-appointment")}
-                    className="bg-amber-500 text-black px-3.5 sm:px-6 py-2 md:py-3 rounded-xl text-[10px] md:text-[11px] font-black tracking-widest shadow-xl hover:bg-amber-400 active:scale-95 transition-all block text-center border border-amber-400/20 whitespace-nowrap">
+                    className="bg-amber-500 text-black px-3.5 sm:px-5 py-2 md:py-2.5 rounded-xl text-[10px] md:text-[11px] font-black tracking-widest shadow-lg hover:bg-amber-400 active:scale-95 transition-all border border-amber-400/20">
                     BOOK NOW
                   </button>
                 </div>
-
-                <button
-                  className={`lg:hidden transition-colors p-1 ${isScrolled || mobileMenuOpen ? "text-black" : "text-white"}`}
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                  {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
-                </button>
               </div>
+
+              {/* MOBILE TRIGGER */}
+              <button
+                className={`lg:hidden transition-colors p-2 z-[10001] relative ${isScrolled || mobileMenuOpen ? "text-black" : "text-white"}`}
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Toggle Menu">
+                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
             </motion.div>
           ) : (
-            /* LAYER B: PREMIUM OVERLAY VOUCHER CARD */
+            /* --- LAYER B: MOBILE OPTIMIZED VOUCHER HERO BANNER --- */
             <motion.div
               key="banner-content"
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="w-full grid grid-cols-1 lg:grid-cols-12 gap-4 items-center py-4 text-white bg-[#0a0a0a]">
-              <div className="lg:col-span-7 space-y-1">
-                <div className="flex items-center gap-2">
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="w-full flex flex-col md:grid md:grid-cols-12 gap-3 items-center py-4 text-white relative">
+              <div className="w-full md:col-span-7 space-y-1 text-center md:text-left pr-8 md:pr-0">
+                <div className="flex items-center justify-center md:justify-start gap-1.5">
                   <div className="flex text-amber-400">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={11} fill="currentColor" />
+                      <Star key={i} size={10} fill="currentColor" />
                     ))}
                   </div>
-                  <span className="text-white/90 font-bold text-[10px] tracking-wide uppercase">
+                  <span className="text-white/80 font-black text-[9px] tracking-wider uppercase">
                     Top Rated Unisex Salon in Burhanpur
                   </span>
                 </div>
-                <h3 className="text-lg md:text-2xl font-black text-white leading-tight uppercase tracking-tight">
+                <h3 className="text-base md:text-xl font-black text-white leading-tight uppercase tracking-tight">
                   Where Style Meets{" "}
                   <span className="text-amber-400">Transformation</span>
                 </h3>
               </div>
 
-              <div className="lg:col-span-4 relative">
-                <div className="relative bg-gradient-to-br from-amber-500/10 to-transparent border border-amber-500/30 p-3 rounded-xl flex items-center justify-between gap-3 shadow-xl">
+              <div className="w-full md:col-span-4">
+                <div className="bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/30 p-2 sm:p-3 rounded-xl flex items-center justify-between gap-3 shadow-md">
                   <div className="text-left">
-                    <div className="text-[8px] bg-amber-500 text-black px-2 py-0.5 rounded-full font-black uppercase tracking-wider inline-block mb-0.5">
+                    <span className="text-[7.5px] bg-amber-500 text-black px-1.5 py-0.5 rounded-full font-black uppercase tracking-wider inline-block">
                       Welcome Gift
-                    </div>
-                    <h4 className="text-xl font-black text-white italic">
+                    </span>
+                    <h4 className="text-base sm:text-lg font-black text-white italic tracking-tight mt-0.5">
                       FLAT 50% OFF
                     </h4>
                   </div>
                   <button
                     onClick={handleCopy}
-                    className="shrink-0 bg-amber-500 text-black px-3 py-2 rounded-lg font-black text-[10px] tracking-wider transition-transform active:scale-95">
+                    className="shrink-0 bg-amber-500 text-black px-3 py-1.5 rounded-lg font-black text-[10px] tracking-widest transition-all active:scale-95 shadow-md hover:bg-amber-400">
                     {copied ? "COPIED" : "STYLORIA50"}
                   </button>
                 </div>
               </div>
 
-              <div className="lg:col-span-1 flex justify-end absolute right-2 top-2 lg:relative lg:right-0 lg:top-0">
+              <div className="absolute right-0 top-3 md:relative md:top-0 md:col-span-1 flex justify-end">
                 <button
                   onClick={() => setIsBannerExpanded(false)}
-                  className="w-8 h-8 rounded-full bg-white/5 text-white flex items-center justify-center border border-white/10 hover:bg-white/10 transition-colors">
-                  <X size={16} />
+                  className="w-7 h-7 rounded-full bg-white/5 text-white flex items-center justify-center border border-white/10 hover:bg-white/10 transition-colors">
+                  <X size={14} />
                 </button>
               </div>
             </motion.div>
@@ -340,46 +382,79 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
         </AnimatePresence>
       </div>
 
-      {/* --- LIGHT MODE MOBILE NAVIGATION DRAWER --- */}
+      {/* --- PREMIUM MOBILE FULL-SCREEN MENU DRAWER --- */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "tween", duration: 0.4, ease: "easeInOut" }}
-            className="fixed inset-0 bg-white/95 text-black z-[1000] flex flex-col p-8 pt-28 h-screen w-screen overflow-y-auto backdrop-blur-2xl">
-            <div className="flex flex-col gap-5">
-              {mobileLinks.map((item) => (
-                <a
-                  key={item.name}
-                  href="https://maps.app.goo.gl/8XSSKuy7e3T81v7n6"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-4 text-2xl sm:text-3xl font-black text-neutral-800 hover:text-amber-500 transition-colors group">
-                  <span className="text-amber-500 group-hover:scale-110 transition-transform duration-300">
-                    {item.icon}
-                  </span>
-                  <span>{item.name}.</span>
-                </a>
-              ))}
-            </div>
+          <>
+            {/* Dark Backdrop Blur overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-md z-[999]"
+              onClick={() => setMobileMenuOpen(false)}
+            />
 
-            <div className="mt-auto border-t border-neutral-200 pt-6">
-              <p className="text-amber-600 text-xs font-black mb-1 tracking-widest">
-                STYLORIA APPOINTMENTS
-              </p>
-              <a
-                href="tel:+919755131359"
-                className="text-xl text-neutral-900 font-black tracking-wide hover:text-amber-500 transition-colors block">
-                +91 9755131359
-              </a>
-              <p className="text-[10px] text-neutral-500 mt-2 uppercase tracking-wider font-medium">
-                Indra Colony, Opp. Anand Green Restaurant, Burhanpur
-              </p>
-            </div>
-          </motion.div>
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "tween", duration: 0.35, ease: "easeInOut" }}
+              className="fixed top-0 right-0 bottom-0 bg-white text-black z-[1000] flex flex-col w-full max-w-[340px] h-[100dvh] shadow-2xl p-6 pt-24 border-l border-neutral-100">
+              {/* Navigation Links */}
+              <div className="flex flex-col gap-3.5 overflow-y-auto max-h-[50vh] pr-1">
+                <p className="text-[10px] font-black tracking-widest text-neutral-400 uppercase mb-1">
+                  Our Specialties
+                </p>
+                {mobileLinks.map((item) => (
+                  <a
+                    key={item.name}
+                    href="https://maps.app.goo.gl/8XSSKuy7e3T81v7n6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3.5 p-3 rounded-xl text-neutral-800 hover:bg-amber-500/10 active:bg-amber-500/10 transition-all font-bold text-base group">
+                    <span className="text-amber-500 p-2 bg-amber-500/10 rounded-xl group-hover:scale-105 transition-transform">
+                      {item.icon}
+                    </span>
+                    <span>{item.name}</span>
+                  </a>
+                ))}
+              </div>
+
+              {/* Bottom Quick Actions Dashboard */}
+              <div className="mt-auto border-t border-neutral-100 pt-6 space-y-5 bg-gradient-to-b from-transparent to-neutral-50/50 -mx-6 px-6 pb-4 rounded-b-2xl">
+                <div>
+                  <span className="inline-flex items-center gap-1 text-amber-600 text-[10px] font-black tracking-widest uppercase mb-1.5">
+                    <Phone size={10} /> Booking Helpline
+                  </span>
+                  <a
+                    href="tel:+919755131359"
+                    className="text-xl text-neutral-900 font-black tracking-tight hover:text-amber-600 transition-colors block">
+                    +91 9755131359
+                  </a>
+                </div>
+
+                <div className="space-y-1">
+                  <span className="inline-flex items-center gap-1 text-neutral-400 text-[10px] font-black tracking-widest uppercase">
+                    <MapPin size={10} /> Flagship Salon
+                  </span>
+                  <p className="text-[11px] text-neutral-600 leading-relaxed font-medium">
+                    Indra Colony, Opp. Anand Green Restaurant, <br />
+                    <span className="font-bold text-neutral-800">
+                      Burhanpur (M.P.)
+                    </span>
+                  </p>
+                </div>
+
+                <button
+                  onClick={(e) => handleNavigation(e, "/book-appointment")}
+                  className="w-full bg-black text-white text-center py-3 rounded-xl font-black text-xs tracking-widest shadow-xl active:scale-95 transition-transform bg-neutral-900 hover:bg-black">
+                  SCHEDULE APPOINTMENT
+                </button>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.nav>
