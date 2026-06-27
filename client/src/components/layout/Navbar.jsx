@@ -9,9 +9,6 @@ import {
   Heart,
   ShieldCheck,
   Gift,
-  Ticket,
-  TicketIcon,
-  LucideGift, // ऑफर के लिए गिफ्ट आइकॉन
 } from "lucide-react";
 import MobileMenu from "./MobileMenu";
 import OfferBanner from "./OfferBanner";
@@ -20,7 +17,7 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [activeMenu, setActiveMenu] = useState(null);
-  const [isBannerExpanded, setIsBannerExpanded] = useState(false); // यह स्टेट अब काम करेगी
+  const [isBannerExpanded, setIsBannerExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const lastScrollY = useRef(0);
@@ -115,7 +112,10 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
         layout
         animate={{ translateY: isVisible ? "0%" : "-100%" }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`fixed top-0 left-0 right-0 w-full z-[999] border-b transition-all duration-500 ease-out ${
+        /* FIX: यहाँ z-index को डायनामिक किया है, जब मोबाइल मेनू खुलेगा तो पैरेंट सीधे z-[2500] बन जाएगा */
+        className={`fixed top-0 left-0 right-0 w-full border-b transition-all duration-500 ease-out ${
+          mobileMenuOpen ? "z-[2500]" : "z-[999]"
+        } ${
           isBannerExpanded
             ? "bg-[#0a0a0a] border-white/5 text-white"
             : mobileMenuOpen
@@ -137,7 +137,7 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
                 <a
                   href="/"
                   onClick={(e) => handleNavigation(e, "/")}
-                  className="flex flex-col group relative z-[1001]">
+                  className="flex flex-col group relative">
                   <span
                     className={`text-xl md:text-2xl font-black tracking-tighter ${isScrolled || mobileMenuOpen ? "text-black" : "text-white"}`}
                     style={textShadowStyle}>
@@ -150,7 +150,7 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
                   </span>
                 </a>
 
-                {/* DESKTOP NAV & GLOWING OFFER BUTTON */}
+                {/* DESKTOP NAV */}
                 <div className="hidden lg:flex items-center gap-6">
                   <div
                     className={`flex items-center gap-2 p-1.5 rounded-full border ${isScrolled ? "bg-black/5 border-black/5" : "bg-black/30 border-white/10 backdrop-blur-md"}`}>
@@ -168,7 +168,6 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
                     ))}
                   </div>
 
-                  {/* Desktop Offer Button */}
                   <button
                     onClick={() => setIsBannerExpanded(true)}
                     className="flex items-center gap-1.5 bg-amber-500/10 text-amber-500 border border-amber-500/30 px-3 py-1.5 rounded-full text-xs font-black tracking-wider animate-pulse hover:bg-amber-500 hover:text-black transition-all">
@@ -177,7 +176,7 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
                 </div>
 
                 {/* CONVERSION, MOBILE OFFER & HAMBURGER */}
-                <div className="flex items-center gap-1.5 relative z-[1001]">
+                <div className="flex items-center gap-2 relative">
                   <motion.div
                     onClick={() => setIsBannerExpanded(!isBannerExpanded)}
                     animate={{
@@ -211,17 +210,20 @@ const Navbar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
                     BOOK NOW
                   </button>
 
-                  {/* MOBILE HAMBURGER TRIGGER */}
+                  {/* PREMIUM GRAY BUTTON - अब यह हमेशा ऊपर चमकेगा */}
                   <button
-                    className={`lg:hidden p-2 transition-transform ${isScrolled || mobileMenuOpen ? "text-black" : "text-white"}`}
+                    className={`lg:hidden p-2.5 rounded-full transition-all duration-300 ${
+                      mobileMenuOpen || isScrolled
+                        ? "bg-neutral-100 text-neutral-950 hover:bg-neutral-200 active:scale-95"
+                        : "bg-black/20 text-white hover:bg-black/40 backdrop-blur-sm active:scale-95"
+                    }`}
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     aria-label="Toggle Menu">
-                    {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
                   </button>
                 </div>
               </motion.div>
             ) : (
-              /* आपका ओरिजिनल ऑफर बैनर यहाँ रेंडर होगा */
               <OfferBanner
                 copied={copied}
                 onCopy={handleCopy}
